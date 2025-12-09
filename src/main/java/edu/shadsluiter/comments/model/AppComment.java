@@ -1,17 +1,32 @@
 package edu.shadsluiter.comments.model;
 
 import java.time.LocalDateTime;
- 
+import java.time.format.DateTimeFormatter;
+
 
 public class AppComment {
+
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private int id;
     private String author;
-    private String content; 
+    private String content;
 
-    public AppComment(int id, String author, String content ) {
+    public String getCreatedAt() {
+        return formatter.format(createdAt);
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    private LocalDateTime createdAt;
+
+    public AppComment(int id, String author, String content, LocalDateTime createdAt ) {
         this.id = id;
         this.author = author;
-        this.content = content; 
+        this.content = content;
+        this.createdAt = createdAt;
     }
 
     public int getId() {
@@ -37,8 +52,8 @@ public class AppComment {
     public void setId(int id) {
         this.id = id;
     }
- 
-    
+
+
 
     @Override
 
@@ -46,8 +61,9 @@ public class AppComment {
         return "Comment{" +
                 "id=" + id +
                 ", author='" + author + '\'' +
-                ", content='" + content + '\'' + 
+                ", content='" + content + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
-    
+
 }
