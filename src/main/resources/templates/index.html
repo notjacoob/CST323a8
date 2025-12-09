@@ -10,14 +10,16 @@
   <!-- table of comments-->
    <table class="table">
     <thead>
-      <tr> 
+      <tr>
         <th scope="col">ID</th>
-        <th scope="col">Content</th> 
+        <th scope="col">Content</th>
       </tr>
     </thead>
     <tbody>
-      <tr th:each="comment : ${comments}">  
-        <td th:text="${comment.content}">Sample comment content</td>  
+      <tr th:each="comment : ${comments}">
+          <th th:text="${comment.id}">1</th>
+        <td th:text="${comment.content}">Sample comment content</td>
+          <td th:text="${comment.author}">Author Name</td>
       </tr>
     </tbody>
 
@@ -35,7 +37,7 @@
       </div>
       <button type="submit" class="btn btn-primary">Add Comment</button>
     </form>
- 
 
-</body>
+
+</div>
 </html>
