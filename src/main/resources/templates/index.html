@@ -6,27 +6,30 @@
     <title>Comments Application</title>
     <link href="style.css" rel="stylesheet"  >
 <div class="container">
-  <h1>Welcome to the comments application!</h1>
-  <!-- table of comments-->
-   <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Content</th>
-          <th scope="col">Author</th>
-          <th scope="col">Created At</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr th:each="comment : ${comments}">
-          <th th:text="${comment.id}">1</th>
-        <td th:text="${comment.content}">Sample comment content</td>
-          <td th:text="${comment.author}">Author Name</td>
-          <td th:text="${comment.getCreatedAt()}">1/1/1970</td>
-      </tr>
-    </tbody>
+    <script>
+        const parser = new DOMParser()
+        const search = async () => {
+            const searchVal = document.getElementById("search-val").value
 
-    </table>
+            if (searchVal !== "") {
+                const res = await fetch("/search", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json"
+                    },
+                    body: JSON.stringify({searchTerm: searchVal})
+                })
+                const data = await res.text()
+                const html = parser.parseFromString(data, "text/html")
+                document.getElementById("comment-table").replaceWith(html.getElementById("comment-table"))
+            }
+        }
+    </script>
+  <h1>Welcome to the comments application!</h1>
+    <label for="search-val">Search Term</label><input type="text" id="search-val" placeholder="Enter your search term!"/>
+    <button onclick="search()" id="search-submit">Search</button>
+    <!-- table of comments-->
+    <table id="comment-table" th:replace="fragments/comments :: commentTable" th:with="comments=${comments}"></table>
 
     <!-- form to add comments   -->
     <form th:action="@{/submitComment}" method="post">

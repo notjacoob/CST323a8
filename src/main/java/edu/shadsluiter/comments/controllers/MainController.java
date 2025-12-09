@@ -1,9 +1,11 @@
 package edu.shadsluiter.comments.controllers;
 
+import edu.shadsluiter.comments.model.SearchModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import edu.shadsluiter.comments.data.CommentsDAO;
@@ -29,5 +31,11 @@ public class MainController {
         // PRG pattern: redirect so refresh doesn’t resubmit the form
         return "redirect:/";
     }
- 
+    @PostMapping("/search")
+    public String search(Model model, @RequestBody SearchModel searchModel) {
+        var results = commentsDAO.searchForComments(searchModel.getSearchTerm());
+        model.addAttribute("comments", results);
+        return "fragments/comments";
+    }
+
 }
